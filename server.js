@@ -75,4 +75,4 @@ io.on('connection', (socket) => {
     });
 });
 
-http.listen(port, () => console.log("Running on " + port))
+http.listen(process.env.PORT || 3000, () => console.log("Running on " + port))
