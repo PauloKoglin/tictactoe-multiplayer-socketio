@@ -2,7 +2,7 @@
   "name": "just-a-tictactoe-html",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.html",
   "scripts": {
     "start": "node server.js"
   },

@@ -7,8 +7,8 @@ const http = require('http').createServer(app)
 const io = require('socket.io')(http);
 const games = new Array()
 
-app.use(express.static("."))
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.static("."))
 
 function getRandomNumber() {
     return (Math.random() * (9 - 0)).toFixed(0).toString()
