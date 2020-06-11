@@ -10,6 +10,10 @@ const games = new Array()
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static("."))
 
+app.get('/', (req, res) => {
+    res.send('Tic Tac Toe!');
+});
+
 function getRandomNumber() {
     return (Math.random() * (9 - 0)).toFixed(0).toString()
 }
