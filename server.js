@@ -10,10 +10,6 @@ const games = new Array()
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static("."))
 
-app.get('/', (req, res) => {
-    res.send('Tic Tac Toe!');
-});
-
 function getRandomNumber() {
     return (Math.random() * (9 - 0)).toFixed(0).toString()
 }
@@ -40,39 +36,24 @@ app.post("/playroom", (req, res) => {
 })
 
 io.on('connection', (socket) => {
-
-    // socket.on('disconnect', () => {
-    //     roomID = socket.handshake.query.room
-    //     playerName = socket.handshake.query.player
-    //     room = rooms.find(element => element.room === roomID)
-    //     room.players.filter(player => player !== playerName)
-
-    //     console.log(playerName + ' connected to room ' + roomID);
-    // });
-
-    socket.on('player-connected', (room, playerName) => {
-        //  roomID = socket.handshake.query.room
-        // playerName = socket.handshake.query.player
-        // roomID = room
-        // playerName = player
+    socket.on('player-connected', (room, player) => {
         game = games.find(element => element.room === room)
 
         if (game) {
             socket.join(room)
-            game.players.push(playerName)
+            game.players.push(player)
 
             if (game.players.length == 2) {
                 io.to(game.room).emit(`${room}-start`, game.players);
             }
-            console.log(playerName + ' connected to room ' + room);
+            console.log(player.name + ' connected to room ' + room);
         }
 
     });
 
     socket.on('played-cell', (room, cell, player) => {
-        // console.log('played-cell: ' + cell + player);
         io.to(room).emit(`${room}-played`, cell, player);
     });
 });
 
-http.listen(process.env.PORT || 3000, () => console.log("Running on " + port))
+http.listen(process.env.PORT || port, () => console.log("Running on " + port))

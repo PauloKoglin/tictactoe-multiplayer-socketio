@@ -1,7 +1,8 @@
 body {
     font-family: cursive;
     font-size: large;
-    background-color: black;    
+    background-color: black;     
+    background-image: linear-gradient(to bottom right, rgba(19, 18, 18, 0.6), rgb(0, 0, 0));    
     color: whitesmoke; 
 }
 
@@ -12,7 +13,6 @@ header {
 }
 
 #tabulary {
-    /* left: 50%;     */
     margin-left: -225px;
 }
 
@@ -28,6 +28,10 @@ header {
     color: whitesmoke;   
     display: flex;  
     flex-direction: column;         
+}
+
+.room {
+    padding-top: 30px;
 }
 
 #player {
@@ -50,7 +54,7 @@ input, button, p {
     margin-right: 40%;
     padding: 10px;  
     margin-top: 5px;  
-    margin-bottom: 5px;  
+    margin-bottom: 5px;      
 }
 
 p {    
@@ -61,6 +65,7 @@ p {
 button {   
     color: white;
     font-size: 20px;
+    transition: width 2s, height 4s;
 }
 
 #join {
@@ -76,7 +81,7 @@ button {
     padding: 5px;
     font-size: 40px;
     margin-left: unset;    
-    color: white;
+    color: white;    
 }
 
 img {    

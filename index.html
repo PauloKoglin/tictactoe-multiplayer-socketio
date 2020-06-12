@@ -16,17 +16,13 @@
         </header>
         <section id="gameArea">
             <div class="container-col">
-                <input id="name" type="text" placeholder="Your Name" value="">
+                <input id="name" type="text" placeholder="Enter your name" value="">
                 <button id="newGame" onclick="startGame()">New Game</button>
                 <p>OR</p>
-                <input id="room" type="text" placeholder="Game ID" value="">
+                <input id="nameToJoin" type="text" placeholder="Enter your name" value="">
+                <input id="room" type="text" placeholder="Enter a game ID" value="">
                 <button id="join" onclick="joinGame()">Join Game</button>
             </div>
-            <!-- <div id="tabulary" class="container-row"></div>
-            <div id="player" class="container-row"></div>
-            <div class="container-row">
-                <div hidden id="messageBox"></div>
-            </div> -->
         </section>
     </div>
     <script src="/node_modules/socket.io-client/dist/socket.io.js"></script>

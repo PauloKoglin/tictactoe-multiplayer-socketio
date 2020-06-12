@@ -1,5 +1,3 @@
-// const axios = require('axios')
-
 function Game(roomID) {
     this.simbol = ["empty", "circle", "cross"]
     this.player1 = null
@@ -17,6 +15,7 @@ function Game(roomID) {
     this.setWinner = (player) => {
         this.winner = player
         showMessage(`${this.winner.name} won the game!!!`)
+        // this.tabulary.reset() TODO
     }
 
     this.setActivePlayer = (player) => {
@@ -36,12 +35,13 @@ function Game(roomID) {
         this.setActivePlayer(this.activePlayer = Math.random() * (1, 0) === 0 ? this.player1 : this.player2)
     }
 
-    showMessage = (message, duration) => {
+    showMessage = (message, infinite) => {
         messageBox = document.getElementById("messageBox")
         messageBox.innerHTML = message
         messageBox.removeAttribute("hidden")
         messageBox.style.animationName = "messageAnimation"
-        messageBox.style.animationDuration = duration ? duration : "2s"
+        messageBox.style.animationDuration = "3s"
+        messageBox.style.animationIterationCount = infinite ? "infinite" : "unset";
         messageBox.style.animationFillMode = "forwards"
         messageBox.style.marginLeft = `${messageBox.offsetWidth / 2 * -1}px`
     }
@@ -94,16 +94,22 @@ function Game(roomID) {
     this.initialize = function () {
         gameArea.innerHTML = ""
 
-        messages = document.createElement("div")
+        let messages = document.createElement("div")
         messages.setAttribute("class", "container-row")
         messages.innerHTML = '<div hidden id="messageBox"></div>'
         gameArea.appendChild(messages)
 
-        session = document.createElement("div")
+        let session = document.createElement("div")
         session.setAttribute("class", "container-row room")
-        session.innerHTML = "Game Room " + this.room
-        session.style.marginLeft = `${session.offsetWidth / 2 * -1}px`
+
+        let div = document.createElement("div")
+        div.setAttribute("class", "container-col")
+        div.innerHTML = "Game Room " + this.room
+        session.appendChild(div)
         gameArea.appendChild(session)
+
+        div.style.marginLeft = `${div.offsetWidth / 2 * -1}px`
+        div.style.fontFamily = "Courier"
 
         showMessage("Waiting for secound player...", "infinite")
     }
@@ -111,22 +117,25 @@ function Game(roomID) {
 
 function Player(name, simbol) {
     const crossImg = "../img/cross.png"
-    const circleImg = "../img/circle.jpg"
+    const circleImg = "../img/circle.png"
     this.name = name
     this.simbol = simbol
     this.simbolImg = simbol == "circle" ? circleImg : crossImg
 }
 
 function Cell(x, y) {
+    const emptyImg = "../img/empty.png"
     this.player = null
     this.simbol = ""
-    this.img = "../img/empty.png"
+    this.img = emptyImg
     this.position = { x, y }
 
     this.element = document.createElement("img")
     this.element.src = this.img
     this.element.cellX = this.position.x
     this.element.cellY = this.position.y
+
+    this.setEmptyImg = () => this.img = emptyImg
 
     this.setCellPlayer = (cell, player) => {
         cell.player = player
@@ -196,6 +205,15 @@ function Tabulary() {
             cell.element.style.animationFillMode = "forwards"
         });
     }
+
+    this.reset = () => {
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                cell = Table[j][i]
+                cell.setEmptyImg()
+            }
+        }
+    }
 }
 
 function startGame() {
@@ -213,11 +231,10 @@ function startGame() {
 }
 
 function openSocket(room, player) {
-    // debugger
     socket = io()
-    socket.emit('player-connected', game.room, player);
+    socket.emit('player-connected', room, player);
 
-    socket.on(`${game.room}-played`, function (cell, player) {
+    socket.on(`${room}-played`, function (cell, player) {
         cell = game.tabulary.getCellByPosition(cell.position.x, cell.position.y)
         cell.setCellPlayer(cell, player)
     });
@@ -231,16 +248,11 @@ function openSocket(room, player) {
 
 function joinGame() {
     const room = document.getElementById("room").value
+    const nameToJoin = document.getElementById("nameToJoin").value
 
     game = new Game(room)
     game.initialize()
-    myPlayer = new Player("Invited Player", "circle")
+    myPlayer = new Player(nameToJoin, "circle")
 
     openSocket(room, myPlayer)
 }
-
-// newGamebtn = document.getElementById("newGame")
-// newGamebtn.onclick = (e) => startGame()
-
-// joinGame = document.getElementById("joinGame")
-// newGamebtn.onclick = (e) => joinGame()
