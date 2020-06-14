@@ -1,7 +1,5 @@
 function Game(roomID) {
     this.simbol = ["empty", "circle", "cross"]
-    // this.player1 = null
-    // this.player2 = null
     this.players = new Array()
     this.activePlayer = null
     this.room = roomID
@@ -33,7 +31,7 @@ function Game(roomID) {
         this.showMessage(`${player.name}, you play!!!`)
     }
 
-    this.nextPlayer = () => this.setActivePlayer(this.activePlayer == this.players[0] ? this.players[1] : this.players[0])
+    this.nextPlayer = () => this.setActivePlayer(this.activePlayer.name === this.players[0].name ? this.players[1] : this.players[0])
 
     this.playerWins = (player, combination) => {
         this.setWinner(player)
@@ -178,8 +176,7 @@ function Cell(x, y) {
         if (myPlayer.name === game.activePlayer.name) {
             cell = game.tabulary.getCellByPosition(e.target.cellX, e.target.cellY)
             if (!cell.player && !game.winner) {
-                player = game.activePlayer
-                socket.emit('played-cell', game.room, cell, player);
+                socket.emit('played-cell', game.room, cell, myPlayer);
             }
         }
     }
