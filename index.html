@@ -7,6 +7,7 @@
     <title>Paulo Koglin - Tic Tac Toe</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.js"></script>
 </head>
 
 <body>
@@ -17,11 +18,11 @@
         <section id="gameArea">
             <div class="container-col">
                 <input id="name" type="text" placeholder="Enter your name" value="">
-                <button id="newGame" onclick="startGame()">New Game</button>
+                <button class="greenButton" onclick="startGame()">New Game</button>
                 <p>OR</p>
                 <input id="nameToJoin" type="text" placeholder="Enter your name" value="">
                 <input id="room" type="text" placeholder="Enter a game ID" value="">
-                <button id="join" onclick="joinGame()">Join Game</button>
+                <button class="redButton" onclick="joinGame()">Join Game</button>
             </div>
         </section>
     </div>

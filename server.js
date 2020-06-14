@@ -44,7 +44,9 @@ io.on('connection', (socket) => {
             game.players.push(player)
 
             if (game.players.length == 2) {
-                io.to(game.room).emit(`${room}-start`, game.players);
+                // Randomize the player who starts playing
+                startPlayer = game.players[((Math.random() * 1).toFixed(0))]
+                io.to(game.room).emit(`${room}-start`, game.players, startPlayer);
             }
             console.log(player.name + ' connected to room ' + room);
         }
@@ -53,6 +55,10 @@ io.on('connection', (socket) => {
 
     socket.on('played-cell', (room, cell, player) => {
         io.to(room).emit(`${room}-played`, cell, player);
+    });
+
+    socket.on('play-again', (choice, room, player) => {
+        io.to(room).emit(`${room}-again`, choice, player);
     });
 });
 

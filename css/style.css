@@ -1,87 +1,57 @@
 body {
-    font-family: cursive;
-    font-size: large;
-    background-color: black;     
-    background-image: linear-gradient(to bottom right, rgba(19, 18, 18, 0.6), rgb(0, 0, 0));    
-    color: whitesmoke; 
-}
-
-header {
-    position: relative;   
-    left: 50%;    
-    margin-left: -100px;     
-}
-
-#tabulary {
-    margin-left: -225px;
+    font-family: Courier;    
+    background-color: black;         
+    color: whitesmoke;    
 }
 
 .container-row {      
-    position: relative;   
+    align-items: center;
     display: flex;  
-    flex-direction: row;     
-    left: 50%;               
+    flex-direction: row;         
 }
 
-.container-col {      
-    position: relative;
-    color: whitesmoke;   
+.container-col {          
+    align-items: center;    
     display: flex;  
-    flex-direction: column;         
+    flex-direction: column;       
 }
 
 .room {
-    padding-top: 30px;
+    padding-top: 20px;    
+    padding-bottom: 8px;
 }
 
-#player {
-    margin-left: -140px;    
-}
-
-.player {
-    padding-left: 10px;
-}
-
-.flex-container {        
-    display: flex;  
-    flex-direction: column;           
-}
-
-input, button, p {    
-    border-radius: 6px; 
-    border-width: 0px;    
-    margin-left: 40%;
-    margin-right: 40%;
+input, button {            
+    width: 200px;    
+    border-radius: 2px; 
+    border-width: 0px;        
     padding: 10px;  
-    margin-top: 5px;  
-    margin-bottom: 5px;      
+    margin-top: 3px;  
 }
 
 p {    
-    color: white;    
     font-size: larger;  
+    padding-top: 10px;
 }
 
 button {   
-    color: white;
-    font-size: 20px;
-    transition: width 2s, height 4s;
+    color: white;  
+    width: 220px;  
+    font-size: medium;
+    
 }
 
-#join {
-    background-color: red;
+.redButton {
+    background-color: rgb(194, 27, 27);
 }   
 
-#newGame {
-    background-color: green;
+.greenButton {
+    background-color: rgb(10, 121, 10);
 }   
 
 #messageBox {
-    padding-top: 10px;
-    padding: 5px;
-    font-size: 40px;
-    margin-left: unset;    
-    color: white;    
+    padding-top: 10px;    
+    font-size: 40px;        
 }
 
 img {    
@@ -102,5 +72,5 @@ img {
 }  
 
 @keyframes messageAnimation {    
-    to {color: red;}
+    to {color: red;}    
 }  
