@@ -6,15 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paulo Koglin - Tic Tac Toe</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="src/css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.js"></script>
 </head>
 
 <body>
+    <header>
+        <h1>Tic Tac Toe</h1>
+    </header>
     <div class="container-col">
-        <header>
-            <h1>Tic Tac Toe</h1>
-        </header>
         <section id="gameArea">
             <div class="container-col">
                 <input id="name" type="text" placeholder="Enter your name" value="">
@@ -26,8 +26,12 @@
             </div>
         </section>
     </div>
+    <footer>
+        <p>Developed by Paulo Koglin</p>
+    </footer>
     <script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
-    <script src="/js/tictactoe.js"></script>
+    <script src="src/js/tictactoe.js"></script>
 </body>
+
 
 </html>

@@ -6,7 +6,7 @@ function Game(roomID) {
     this.winner = null
     this.tabulary = new Tabulary()
 
-    const playAgain = new Array()
+    const playersChoice = new Array()
     const gameArea = document.getElementById("gameArea")
 
     this.addPlayer = (player) => this.players.push(player)
@@ -14,15 +14,14 @@ function Game(roomID) {
     this.setWinner = (player) => {
         this.winner = player
         this.showMessage(`${this.winner.name} won the game!`)
-        this.askToPlayAgain()
-        // this.tabulary.reset() TODO
+        this.showAskButtons(true)
     }
 
     this.playAgain = (choice) => {
-        playAgain.push(choice)
-        if (playAgain.length === 2 && !playAgain.indexOf(false)) {
+        playersChoice.push(choice)
+        if (playersChoice.length === 2 && !!playersChoice.indexOf(false)) {
             // The winner starts playing the next game
-            game.startGame(this.winner)
+            this.startGame(this.winner)
         }
     }
 
@@ -39,9 +38,11 @@ function Game(roomID) {
     }
 
     this.startGame = (startPlayer) => {
-        // playAgain.splice(0)
+        playersChoice.splice(0)
         this.tabulary.reset()
+        this.winner = null
         this.setActivePlayer(startPlayer)
+        this.showAskButtons(false)
     }
 
     this.showMessage = (message, infinite) => {
@@ -54,14 +55,12 @@ function Game(roomID) {
         messageBox.style.animationFillMode = "forwards"
     }
 
-    this.askToPlayAgain = function () {
-        // let playAgain = document.getElementById("playAgain")
-        // playAgain.removeAttribute("hidden")
+    this.showAskButtons = function (visible) {
+        let playAgain = document.getElementById("playAgain")
+        visible ? playAgain.removeAttribute("hidden") : playAgain.setAttribute("hidden", "")
 
-        // let noThanks = document.getElementById("noThanks")
-        // noThanks.removeAttribute("hidden")
-
-        // socket.emit('player-connected', room, player);
+        let noThanks = document.getElementById("noThanks")
+        visible ? noThanks.removeAttribute("hidden") : noThanks.setAttribute("hidden", "")
     }
 
     this.createTabulary = function () {
@@ -78,7 +77,10 @@ function Game(roomID) {
         againBtn.innerHTML = "Play Again"
         againBtn.setAttribute("class", "greenButton")
         againBtn.setAttribute("hidden", "")
-        againBtn.onclick = (e) => socket.emit('play-again', true, this.room, myPlayer)
+        againBtn.onclick = (e) => {
+            socket.emit('play-again', true, this.room, myPlayer)
+            this.showAskButtons(false)
+        }
         askBtns.appendChild(againBtn)
 
         let noThanksBtn = document.createElement("button")
@@ -86,7 +88,10 @@ function Game(roomID) {
         noThanksBtn.innerHTML = "No, Thanks!"
         noThanksBtn.setAttribute("class", "redButton")
         noThanksBtn.setAttribute("hidden", "")
-        noThanksBtn.onclick = (e) => socket.emit('play-again', false, this.room, myPlayer)
+        noThanksBtn.onclick = (e) => {
+            socket.emit('play-again', false, this.room, myPlayer)
+            this.showAskButtons(false)
+        }
         askBtns.appendChild(noThanksBtn)
 
         let playersArea = document.createElement("div")
@@ -141,15 +146,15 @@ function Game(roomID) {
 }
 
 function Player(name, simbol) {
-    const crossImg = "../img/cross.png"
-    const circleImg = "../img/circle.png"
+    const crossImg = "../src/img/cross.png"
+    const circleImg = "../src/img/circle.png"
     this.name = name
     this.simbol = simbol
     this.simbolImg = simbol == "circle" ? circleImg : crossImg
 }
 
 function Cell(x, y) {
-    const emptyImg = "../img/empty.png"
+    const emptyImg = "../src/img/empty.png"
     this.player = null
     this.simbol = ""
     this.img = emptyImg
@@ -160,7 +165,13 @@ function Cell(x, y) {
     this.element.cellX = this.position.x
     this.element.cellY = this.position.y
 
-    this.setEmptyImg = () => this.img = emptyImg
+    this.setEmptyImg = () => {
+        this.img = emptyImg
+        cell.element.src = emptyImg
+        this.player = null;
+        this.simbol = ""
+        this.element.removeAttribute("style")
+    }
 
     this.setCellPlayer = (cell, player) => {
         cell.player = player
@@ -271,6 +282,7 @@ function openSocket(room, player) {
 
     socket.on(`${game.room}-again`, function (choice, player) {
         let msg = choice ? " play again" : " dont't play again"
+        if (!choice) game.showAskButtons(false)
         game.showMessage(player.name + msg)
         game.playAgain(choice)
     });

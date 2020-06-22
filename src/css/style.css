@@ -1,7 +1,21 @@
-body {
+html {
+    height: 100%;
+}
+
+header {
+    text-align: center;
+    padding: 20px;
+}
+
+body {    
     font-family: Courier;    
-    background-color: black;         
-    color: whitesmoke;    
+    background-color: rgb(17, 16, 16);         
+    color: whitesmoke;   
+    min-height: 100%; 
+}
+
+footer {        
+    text-align: center;    
 }
 
 .container-row {      
@@ -37,8 +51,11 @@ p {
 button {   
     color: white;  
     width: 220px;  
-    font-size: medium;
-    
+    font-size: medium;    
+}
+button:hover {
+    opacity: 80%;  
+    cursor: pointer;  
 }
 
 .redButton {
